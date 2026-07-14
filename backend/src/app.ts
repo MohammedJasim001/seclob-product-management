@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import config from "./config/config";
 import { notFoundHandler } from "./middlewares/notefound";
 import globalErrorHandling from "./utils/globalErrorHandler";
-
+import authRouter from "./routes/auth.routes";
 
 const app = express();
 
@@ -18,6 +18,8 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use("/api/auth", authRouter);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandling);
