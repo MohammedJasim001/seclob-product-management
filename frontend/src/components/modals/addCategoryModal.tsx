@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../ui/Button";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { addCategoryThunk } from "../../redux/categroy/categoryThunk";
 import { toast } from "sonner";
-import { resetCategorySlice } from "../../redux/categroy/categorySlice";
 
 interface Props {
   isOpen: boolean;
@@ -13,10 +12,7 @@ interface Props {
 const AddCategoryModal = ({ isOpen, onClose }: Props) => {
   const [categoryName, setCategoryName] = useState("");
   const dispatch = useAppDispatch();
-  const { error, loading, message, success } = useAppSelector(
-    (state) => state.category,
-  );
-
+  const { loading } = useAppSelector((state) => state.category);
 
   const handleSubmit = async () => {
     try {
