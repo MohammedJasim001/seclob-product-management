@@ -3,6 +3,7 @@ import Button from "../ui/Button";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { addCategoryThunk } from "../../redux/categroy/categoryThunk";
 import { toast } from "sonner";
+import Input from "../ui/Input";
 
 interface Props {
   isOpen: boolean;
@@ -39,13 +40,12 @@ const AddCategoryModal = ({ isOpen, onClose }: Props) => {
       >
         <h2 className=" text-xl font-semibold">Add Category</h2>
 
-        <input
+        <Input
           name="newCategory"
           value={categoryName}
           onChange={(e) => setCategoryName(e.target.value)}
           type="text"
-          placeholder="Enter Category name"
-          className="w-full rounded-lg border h-13 p-2 outline-none"
+          placeholder="Enter category name"
         />
 
         <div className=" flex justify-end gap-3">

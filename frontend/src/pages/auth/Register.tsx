@@ -56,6 +56,7 @@ const Register = () => {
           >
             <div className="space-y-6 w-full">
               <Input
+                variant="auth"
                 icon={<User size={24} />}
                 name="name"
                 placeholder="Name"
@@ -70,6 +71,7 @@ const Register = () => {
               />
 
               <Input
+                variant="auth"
                 icon={<Mail size={24} />}
                 name="email"
                 type="email"
@@ -85,6 +87,7 @@ const Register = () => {
               />
 
               <Input
+                variant="auth"
                 icon={<Lock size={24} />}
                 name="password"
                 type="password"

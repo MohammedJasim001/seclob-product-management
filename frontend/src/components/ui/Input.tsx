@@ -9,7 +9,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  variant?: "auth" | "product";
 }
 
 const Input = ({
@@ -22,10 +23,15 @@ const Input = ({
   onChange,
   onBlur,
   icon,
+  variant = "product",
   ...rest
 }: InputProps) => {
+  const variants = {
+    auth: "h-14 bg-[#F4F8F5] w-full",
+    product: "h-13 border border-[#3C3C3C73] w-full rounded-xl",
+  };
   return (
-    <div>
+    <div className="w-full">
       <div className="relative">
         {icon && !value && (
           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
@@ -35,7 +41,7 @@ const Input = ({
         <input
           type={type}
           placeholder={placeholder}
-          className={`w-full  h-14 ${icon && !value ? "pl-12" : "pl-4"} bg-[#F4F8F5] rounded-md ${error ? "border-red-500" : ""} ${className}`}
+          className={` ${variants[variant]} w-full  ${icon && !value ? "pl-12" : "pl-4"}  rounded-md ${error ? "border-red-500" : ""} ${className}`}
           name={name}
           value={value}
           onChange={onChange}
