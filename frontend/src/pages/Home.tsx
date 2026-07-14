@@ -1,8 +1,14 @@
+import BottomNav from "../components/BottomNav";
+import Navbar from "../components/nav";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <Navbar />
+      <BottomNav />
+      <div>hahah</div>
+    </div>
+  );
+};
 
-export default Home
+export default Home;

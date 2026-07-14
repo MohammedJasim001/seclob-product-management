@@ -4,7 +4,8 @@ import cookieParser from "cookie-parser";
 import config from "./config/config";
 import { notFoundHandler } from "./middlewares/notefound";
 import globalErrorHandling from "./utils/globalErrorHandler";
-import authRouter from "./routes/auth.routes";
+import authRoutes from "./routes/auth.routes";
+import categoryRoutes from "./routes/category.routes";
 
 const app = express();
 
@@ -19,7 +20,12 @@ app.use(
   }),
 );
 
-app.use("/api/auth", authRouter);
+app.get("/", (_, res) => {
+  res.send("API is running");
+});
+
+app.use("/api/auth", authRoutes);
+app.use("/api/category", categoryRoutes);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandling);

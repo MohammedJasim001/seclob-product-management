@@ -43,7 +43,7 @@ export const loginUserThunk = createAsyncThunk<
   }
 });
 
-//login
+//forgot password
 export const forgotPasswordThunk = createAsyncThunk<
   { message: string },
   ForgotPasswordPayload,

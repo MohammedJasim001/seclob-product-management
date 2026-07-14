@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
   },
   "ts-node": {
     "files": true

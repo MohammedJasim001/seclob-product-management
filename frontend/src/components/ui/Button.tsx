@@ -4,7 +4,7 @@ interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
-  variant?: "primary" | "secondary" | "outline";
+  variant?: "primary" | "secondary" | "outline" | "common" | "gray";
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
   form?: string;
@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   className,
-  variant = "primary",
+  variant = "common",
   disabled,
   type = "button",
   form,
@@ -27,10 +27,14 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const variants = {
     primary:
-      "bg-[#EDA415] text-white border border-[#EDA415] hover:bg-white hover:text-[#EDA415] px-20",
+      "bg-[#EDA415] text-white hover:bg-[#cd921d] px-20 py-4 rounded-full ",
+
+    common: "bg-[#EDA415] text-white hover:bg-[#cd921d] px-4 py-3 rounded-xl",
 
     secondary:
-      "bg-transparent text-white border border-white hover:bg-white hover:text-[#0B4C73]",
+      "bg-transparent text-white border border-white hover:bg-white hover:text-[#0B4C73] px-20 py-4 rounded-full ",
+
+    gray: "bg-[#EEEEEE] text-black hover:bg-[#d9d9d9] rounded-xl px-4 py-3",
 
     outline:
       "bg-transparent text-[#EDA415] border border-[#EDA415] hover:bg-[#EDA415] hover:text-white",
@@ -39,7 +43,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`border-2 ${variants[variant]} rounded-full  px-12 py-3 font-semibold  transition disabled:bg-gray-400 disabled:cursor-not-allowed ${className}`}
+      className={` ${variants[variant]} font-semibold transition disabled:bg-gray-400 disabled:cursor-not-allowed ${className}`}
       type={type}
       form={form}
       name={name}
