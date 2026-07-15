@@ -5,6 +5,7 @@ export interface IVarients {
 }
 
 export interface IProducts {
+  _id?: string;
   title: string;
   subCategory: string;
   description: string;

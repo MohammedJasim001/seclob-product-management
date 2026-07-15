@@ -18,6 +18,8 @@ const AddSubCategoryModal = ({ isOpen, onClose }: Props) => {
   const dispatch = useAppDispatch();
   const { loading, categories } = useAppSelector((state) => state.category);
 
+  console.log(categories, "caaaaa");
+
   useEffect(() => {
     dispatch(fetchAllCategoriesThunk());
   }, []);

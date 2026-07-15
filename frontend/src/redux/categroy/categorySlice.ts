@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { CategoryState } from "./categoryTypes";
 import { addCategoryThunk, fetchAllCategoriesThunk } from "./categoryThunk";
+import { addSubCategoryThunk } from "../subCategory/subCategoryThunk";
 
 const initialState: CategoryState = {
   loading: false,
   error: null,
   success: false,
   message: "",
-  categories:[]
+  categories: [],
 };
 
 const categorySlice = createSlice({
@@ -22,6 +23,17 @@ const categorySlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(addSubCategoryThunk.fulfilled, (state, action) => {
+      const { newSubCategory } = action.payload;
+
+      const category = state.categories.find(
+        (cat) => cat._id === newSubCategory.category,
+      );
+
+      if (category) {
+        category.subCategories.push(newSubCategory);
+      }
+    });
     builder
       // add new categories
       .addCase(addCategoryThunk.pending, (state) => {
@@ -32,6 +44,7 @@ const categorySlice = createSlice({
         console.log("first");
         state.loading = false;
         state.success = true;
+        state.categories = [...state.categories, action.payload.newCategory];
         state.message = action.payload.message;
       })
 
@@ -55,6 +68,7 @@ const categorySlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+    // subcategory add in to category
   },
 });
 

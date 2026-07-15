@@ -18,6 +18,13 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
   const { categories } = useAppSelector((state) => state.category);
   const { loading } = useAppSelector((state) => state.product);
 
+  const subCategoryOptions = categories.flatMap((category) =>
+    category?.subCategories?.map((sub) => ({
+      name: sub.name,
+      _id: sub._id,
+    })),
+  );
+
   const [product, setProduct] = useState({
     title: "",
     description: "",
@@ -180,7 +187,6 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
               {variants.map((variant, index) => (
                 <div key={index} className="grid gap-5 items-end">
                   <div className="flex gap-10">
-
                     <div className="flex items-center justify-center gap-2">
                       <label className="mb-1 block text-sm text-gray-500">
                         RAM:
@@ -195,7 +201,6 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
                         }
                       />
                     </div>
-
 
                     <div className="flex items-center justify-center gap-2">
                       <label className="mb-1 block text-sm text-gray-500">
@@ -239,7 +244,6 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
                     </div>
                   </div>
 
-
                   <div className="flex gap-2 justify-end">
                     {index === variants.length - 1 && (
                       <Button type="button" onClick={addVariant}>
@@ -274,7 +278,7 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
                     category: e.target.value,
                   }))
                 }
-                options={categories}
+                options={subCategoryOptions}
                 placeholder="Select Category"
               />
             </div>

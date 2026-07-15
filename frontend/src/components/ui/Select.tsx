@@ -1,8 +1,7 @@
 import type { SelectHTMLAttributes } from "react";
-import type { Category } from "../../types/categoryTypes";
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  options: Category[];
+  options: { name: string; _id: string }[];
   placeholder?: string;
   error?: string;
 }

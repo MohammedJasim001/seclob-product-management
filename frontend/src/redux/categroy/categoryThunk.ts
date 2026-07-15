@@ -8,12 +8,13 @@ import type { Category } from "../../types/categoryTypes";
 
 //add new category
 export const addCategoryThunk = createAsyncThunk<
-  { message: string },
+  { message: string; newCategory: Category },
   string,
   { rejectValue: string }
 >("category/create", async (categoryName, { rejectWithValue }) => {
   try {
     const res = await addCategoryApi(categoryName);
+    console.log(res.data,'aaaa')
     return res.data;
   } catch (err) {
     const error = err as AxiosError<{ message: string }>;
@@ -31,7 +32,7 @@ export const fetchAllCategoriesThunk = createAsyncThunk<
 >("category/fetchAll", async (_, { rejectWithValue }) => {
   try {
     const res = await fetchAllCategoriesApi();
-    return res.data.categories;
+    return res.data.result;
   } catch (err) {
     const error = err as AxiosError<{ message: string }>;
     return rejectWithValue(
