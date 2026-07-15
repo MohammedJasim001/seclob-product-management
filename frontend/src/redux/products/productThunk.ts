@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   addProductApi,
+  editProductApi,
   fetchAllProductsApi,
   fetchProductsBySubCategoryApi,
   fetchSingleProductApi,
@@ -8,7 +9,7 @@ import {
 import type { AxiosError } from "axios";
 import type { IProducts } from "../../types/productTypes";
 
-//add new category
+//add new product
 export const addProductThunk = createAsyncThunk<
   { message: string; newProduct: IProducts },
   FormData,
@@ -72,6 +73,23 @@ export const fetchSingleProductsThunk = createAsyncThunk<
     const error = err as AxiosError<{ message: string }>;
     return rejectWithValue(
       error.response?.data?.message || "Product fetch failed",
+    );
+  }
+});
+
+//edit produt
+export const editProductThunk = createAsyncThunk<
+  { message: string; updatedProduct: IProducts },
+  { formData: FormData; productId: string },
+  { rejectValue: string }
+>("product/edit", async ({ formData, productId }, { rejectWithValue }) => {
+  try {
+    const res = await editProductApi(formData, productId);
+    return res.data;
+  } catch (err) {
+    const error = err as AxiosError<{ message: string }>;
+    return rejectWithValue(
+      error.response?.data?.message || "Product edit failed",
     );
   }
 });

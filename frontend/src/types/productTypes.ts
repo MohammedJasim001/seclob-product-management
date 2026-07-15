@@ -1,6 +1,6 @@
 export interface IVarients {
   ram: string;
-  price: number;
+  price: string;
   qty: number;
 }
 

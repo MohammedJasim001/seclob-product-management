@@ -4,8 +4,9 @@ import Button from "../components/ui/Button";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { fetchSingleProductsThunk } from "../redux/products/productThunk";
-import type { IVarients } from "../types/productTypes";
+import type { IProducts, IVarients } from "../types/productTypes";
 import BottomNav from "../components/BottomNav";
+import AddProductModal from "../components/modals/addProductModal";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -15,6 +16,7 @@ const ProductDetails = () => {
   const [selectedVariant, setSelectedVariant] = useState<IVarients | null>(
     null,
   );
+  const [editProductModalOpen, setEditProductModalOpen] = useState(false);
 
   const [qty, setQty] = useState(1);
 
@@ -124,7 +126,12 @@ const ProductDetails = () => {
             {/* Buttons */}
 
             <div className="flex gap-5 mt-12">
-              <Button className="px-12">Edit Product</Button>
+              <Button
+                className="px-12"
+                onClick={() => setEditProductModalOpen(true)}
+              >
+                Edit Product
+              </Button>
 
               <Button className="px-12">Buy it now</Button>
 
@@ -145,6 +152,13 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+      {editProductModalOpen && (
+        <AddProductModal
+          productData={product as IProducts}
+          isOpen={editProductModalOpen}
+          onClose={() => setEditProductModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

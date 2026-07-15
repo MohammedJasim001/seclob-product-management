@@ -1,5 +1,6 @@
 import { IProducts } from "../types/productTypes";
 import Product from "../models/productModel";
+import CustomError from "../utils/CustomError";
 
 // add products
 export const addProduct = async (
@@ -32,5 +33,31 @@ export const fetchProductsBySubCategory = async (subCategoryId: string) => {
 //fetch singel product
 export const fetchSingleProduct = async (productId: string) => {
   const product = await Product.findById(productId);
+  return product;
+};
+
+//edit product
+export const editProduct = async (
+  productId: string,
+  data: any,
+  files: Express.Multer.File[],
+) => {
+  const product = await Product.findById(productId);
+
+  if (!product) {
+    throw new CustomError("Product not found", 404);
+  }
+
+  product.title = data.title;
+  product.description = data.description;
+  product.subCategory = data.subCategory;
+  product.variants = data.variants;
+
+  const uploadedImages = files.map((file) => file.path);
+
+  product.images = [...data.existingImages, ...uploadedImages];
+
+  await product.save();
+
   return product;
 };

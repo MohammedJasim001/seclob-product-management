@@ -19,7 +19,16 @@ export const fetchProductsBySubCategoryApi = (subCategoryId: string) => {
   return apiClient.get(`/product/sub-category/${subCategoryId}`);
 };
 
-// fetch single product 
-export const fetchSingleProductApi = (productId:string) => {
-    return apiClient.get(`/product/single/${productId}`)
-}
+// fetch single product
+export const fetchSingleProductApi = (productId: string) => {
+  return apiClient.get(`/product/single/${productId}`);
+};
+
+// edit product
+export const editProductApi = (formData: FormData, productId: string) => {
+  return apiClient.patch(`/product/edit/${productId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};

@@ -5,15 +5,20 @@ import Select from "../ui/Select";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { fetchAllCategoriesThunk } from "../../redux/categroy/categoryThunk";
-import { addProductThunk } from "../../redux/products/productThunk";
+import {
+  addProductThunk,
+  editProductThunk,
+} from "../../redux/products/productThunk";
 import { toast } from "sonner";
+import type { IProducts } from "../../types/productTypes";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  productData?: IProducts | undefined;
 }
 
-const AddProductModal = ({ isOpen, onClose }: Props) => {
+const AddProductModal = ({ isOpen, onClose, productData }: Props) => {
   const dispatch = useAppDispatch();
   const { categories } = useAppSelector((state) => state.category);
   const { loading } = useAppSelector((state) => state.product);
@@ -26,20 +31,30 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
   );
 
   const [product, setProduct] = useState({
-    title: "",
-    description: "",
-    category: "",
+    title: productData?.title || "",
+    description: productData?.description || "",
+    category: productData?.subCategory || "",
   });
 
-  const [variants, setVariants] = useState([
-    {
-      ram: "",
-      price: "",
-      qty: 1,
-    },
-  ]);
+  const [variants, setVariants] = useState(
+    productData?.variants ?? [
+      {
+        ram: "",
+        price: "",
+        qty: 1,
+      },
+    ],
+  );
 
-  const [images, setImages] = useState<File[]>([]);
+  const [prevProductId, setPrevProductId] = useState(productData?._id);
+  const [images, setImages] = useState<(File | string)[]>(
+    productData?.images ?? [],
+  );
+
+  if (productData?._id !== prevProductId) {
+    setPrevProductId(productData?._id);
+    setImages(productData?.images ?? []);
+  }
 
   const handleSubmit = async () => {
     try {
@@ -71,11 +86,28 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
 
       formData.append("variants", JSON.stringify(variants));
 
-      images.forEach((image) => {
+      const existingImages = images.filter(
+        (img): img is string => typeof img === "string",
+      );
+
+      const newImages = images.filter(
+        (img): img is File => img instanceof File,
+      );
+
+      formData.append("existingImages", JSON.stringify(existingImages));
+
+      newImages.forEach((image) => {
         formData.append("images", image);
       });
 
-      const response = await dispatch(addProductThunk(formData)).unwrap();
+      const response = productData
+        ? await dispatch(
+            editProductThunk({
+              formData,
+              productId: productData?._id as string,
+            }),
+          ).unwrap()
+        : await dispatch(addProductThunk(formData)).unwrap();
 
       toast.success(response.message);
 
@@ -164,7 +196,7 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="w-full max-w-5xl rounded-2xl bg-white py-5 p-10 shadow-xl max-h-screen overflow-y-auto">
         <h2 className="mb-10 text-center text-3xl font-semibold">
-          Add Product
+          {productData ? "Edit Product" : "Add Product"}
         </h2>
 
         <div className="space-y-6">
@@ -301,8 +333,12 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
             {images.map((image, index) => (
               <div key={index} className="relative h-24 w-24 rounded-xl border">
                 <img
-                  src={URL.createObjectURL(image)}
-                  className="h-full w-full rounded-xl object-cover"
+                  src={
+                    typeof image === "string"
+                      ? image
+                      : URL.createObjectURL(image)
+                  }
+                  className="h-24 w-24 rounded-lg object-cover"
                 />
 
                 <button
@@ -337,7 +373,7 @@ const AddProductModal = ({ isOpen, onClose }: Props) => {
               disabled={loading}
               loading={loading}
             >
-              ADD
+              {productData ? "EDIT" : "ADD"}
             </Button>
 
             <Button onClick={onClose} variant="gray">

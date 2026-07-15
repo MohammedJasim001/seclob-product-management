@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addProductThunk,
+  editProductThunk,
   fetchAllProductsThunk,
   fetchProductsBySubCategoryThunk,
   fetchSingleProductsThunk,
@@ -91,6 +92,32 @@ const productSlice = createSlice({
       })
 
       .addCase(fetchSingleProductsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // edit product
+      .addCase(editProductThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editProductThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.message = action.payload.message;
+
+        state.allProducts = state.allProducts.map((product) =>
+          product._id === action.payload.updatedProduct._id
+            ? action.payload.updatedProduct
+            : product,
+        );
+
+        if (state.singleProduct?._id === action.payload.updatedProduct._id) {
+          state.singleProduct = action.payload.updatedProduct;
+        }
+      })
+
+      .addCase(editProductThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

@@ -2,6 +2,7 @@ import express from "express";
 import userAuth from "../middlewares/authMiddleware";
 import {
   addProduct,
+  editProduct,
   fetchAllProducts,
   fetchProductsBySubCategory,
   fetchSingleProduct,
@@ -18,5 +19,11 @@ router.get(
   fetchProductsBySubCategory,
 );
 router.get("/single/:productId", userAuth, fetchSingleProduct);
+router.patch(
+  "/edit/:productId",
+  userAuth,
+  upload.array("images", 5),
+  editProduct,
+);
 
 export default router;
