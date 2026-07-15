@@ -81,7 +81,7 @@ apiClient.interceptors.response.use(
       processQueue(refreshError);
 
       try {
-        await refreshClient.post("/auth/logoutt");
+        await refreshClient.post("/auth/logout");
       } catch (logoutError) {
         console.error("Logout failed:", logoutError);
       }
