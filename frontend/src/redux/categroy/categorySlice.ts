@@ -46,7 +46,6 @@ const categorySlice = createSlice({
         state.error = null;
       })
       .addCase(fetchAllCategoriesThunk.fulfilled, (state, action) => {
-        console.log("first");
         state.loading = false;
         state.success = true;
         state.categories = action.payload;

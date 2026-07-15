@@ -7,6 +7,7 @@ import globalErrorHandling from "./utils/globalErrorHandler";
 import authRoutes from "./routes/auth.routes";
 import categoryRoutes from "./routes/category.routes";
 import subCategoryRoutes from "./routes/subCategory.routes";
+import productRoutes from "./routes/product.routes";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get("/", (_, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/sub-category", subCategoryRoutes);
+app.use("/api/product", productRoutes);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandling);

@@ -2,10 +2,12 @@ import { useState } from "react";
 import Button from "./ui/Button";
 import AddCategoryModal from "./modals/addCategoryModal";
 import AddSubCategoryModal from "./modals/addSubCategoryModal";
+import AddProductModal from "./modals/addProductModal";
 
 const AddButtons = () => {
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [subCategoryModalOpen, setSubCategoryModalOpen] = useState(false);
+  const [productModalOpen, setProductModalOpen] = useState(false);
 
   return (
     <>
@@ -16,7 +18,7 @@ const AddButtons = () => {
           Add sub category
         </Button>
 
-        <Button>Add products</Button>
+        <Button onClick={() => setProductModalOpen(true)}>Add products</Button>
       </div>
 
       <AddCategoryModal
@@ -27,6 +29,11 @@ const AddButtons = () => {
       <AddSubCategoryModal
         isOpen={subCategoryModalOpen}
         onClose={() => setSubCategoryModalOpen(false)}
+      />
+
+      <AddProductModal
+        isOpen={productModalOpen}
+        onClose={() => setProductModalOpen(false)}
       />
     </>
   );

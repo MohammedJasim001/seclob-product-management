@@ -14,14 +14,13 @@ interface Props {
 
 const AddSubCategoryModal = ({ isOpen, onClose }: Props) => {
   const [subCategoryName, setSubCategoryName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const dispatch = useAppDispatch();
   const { loading, categories } = useAppSelector((state) => state.category);
 
   useEffect(() => {
     dispatch(fetchAllCategoriesThunk());
   }, []);
-
-  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleSubmit = async () => {
     try {
@@ -72,7 +71,11 @@ const AddSubCategoryModal = ({ isOpen, onClose }: Props) => {
           <Button
             className="px-8"
             onClick={handleSubmit}
-            disabled={loading || subCategoryName.trim() == ""}
+            disabled={
+              loading ||
+              subCategoryName.trim() == "" ||
+              selectedCategory.trim() == ""
+            }
             loading={loading}
           >
             ADD
