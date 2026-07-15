@@ -41,3 +41,9 @@ export const forgotPassword = catchAsync(async (req, res) => {
     .status(200)
     .json({ success: true, message: "Password reset successful", newPassword });
 });
+
+//logout
+export const logout = catchAsync(async (req, res) => {
+  const message = await authService.logout(res);
+  res.status(200).json({ message });
+});

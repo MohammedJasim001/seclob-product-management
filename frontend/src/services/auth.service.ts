@@ -19,3 +19,8 @@ export const loginUserApi = (userData: LoginPayload) => {
 export const forgotPasswordApi = (userData: ForgotPasswordPayload) => {
   return apiClient.patch("/auth/forgot-password", userData);
 };
+
+//logout
+export const logoutApi = () => {
+  return apiClient.post("/auth/logout");
+};

@@ -3,6 +3,7 @@ import {
   accessTokenGenerator,
   forgotPassword,
   loginUser,
+  logout,
   registerUser,
 } from "../controllers/authController";
 
@@ -12,5 +13,6 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/get-access-token", accessTokenGenerator);
 router.patch("/forgot-password", forgotPassword);
+router.post("/logout", logout);
 
 export default router;

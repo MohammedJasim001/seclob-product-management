@@ -11,6 +11,7 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const { allProducts } = useAppSelector((state) => state.product);
   const { categories } = useAppSelector((state) => state.category);
+  const { user } = useAppSelector((state) => state.user);
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(
     [],
   );
@@ -30,7 +31,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <BottomNav />
+      <BottomNav user={user} />
       <div className=" flex max-w-7xl gap-10 py-10">
         <SideBar
           categories={categories}
@@ -38,7 +39,7 @@ const Home = () => {
           onSelectionChange={setSelectedSubCategories}
         />
 
-        <Products products={filteredProducts} />
+        <Products products={filteredProducts} user={user} />
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import type {
 import {
   forgotPasswordApi,
   loginUserApi,
+  logoutApi,
   registerUserApi,
 } from "../../services/auth.service";
 
@@ -57,5 +58,20 @@ export const forgotPasswordThunk = createAsyncThunk<
     return rejectWithValue(
       error?.response?.data?.message || "Forgot password Failed",
     );
+  }
+});
+
+//logout
+export const logoutThunk = createAsyncThunk<
+  string,
+  void,
+  { rejectValue: string }
+>("auth/logout", async (data, { rejectWithValue }) => {
+  try {
+    const res = await logoutApi();
+    return res.data;
+  } catch (err) {
+    const error = err as AxiosError<{ message: string }>;
+    return rejectWithValue(error?.response?.data?.message || "Logout Failed");
   }
 });

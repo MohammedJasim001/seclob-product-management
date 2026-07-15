@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import AddButtons from "./AddButtons";
+import type { User } from "../types/userTypes";
 
-const BottomNav = () => {
+const BottomNav = ({ user }: { user?: User | null }) => {
   const location = useLocation();
 
   const paths = location.pathname.split("/").filter(Boolean);
@@ -42,7 +43,7 @@ const BottomNav = () => {
       </div>
       {paths.length <= 0 && (
         <div>
-          <AddButtons />
+          <AddButtons user={user} />
         </div>
       )}
     </div>

@@ -7,11 +7,13 @@ import { fetchSingleProductsThunk } from "../redux/products/productThunk";
 import type { IProducts, IVarients } from "../types/productTypes";
 import BottomNav from "../components/BottomNav";
 import AddProductModal from "../components/modals/addProductModal";
+import { fetchCurrentUserThunk, wishlistThunk } from "../redux/user/userThunk";
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const dispatch = useAppDispatch();
   const { singleProduct: product } = useAppSelector((state) => state.product);
+  const { user } = useAppSelector((state) => state.user);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<IVarients | null>(
     null,
@@ -25,7 +27,17 @@ const ProductDetails = () => {
 
   useEffect(() => {
     dispatch(fetchSingleProductsThunk(productId as string));
+    dispatch(fetchCurrentUserThunk());
   }, []);
+
+  const handleWishlist = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    dispatch(wishlistThunk(product?._id as string));
+  };
+
+  const isWishlisted =
+    user?.wishlist?.some((pro) => pro._id === product?._id) ?? false;
 
   return (
     <div>
@@ -135,8 +147,17 @@ const ProductDetails = () => {
 
               <Button className="px-12">Buy it now</Button>
 
-              <button className="h-14 w-14 rounded-full bg-gray-100 flex items-center justify-center">
-                <Heart />
+              <button
+                onClick={handleWishlist}
+                className="rounded-full border flex items-center justify-center border-sky-200 h-14 w-14 transition hover:bg-sky-50"
+              >
+                <Heart
+                  className={`transition-all h-8 w-8 ${
+                    isWishlisted
+                      ? "fill-red-500 text-red-500"
+                      : "text-sky-500 hover:text-red-500"
+                  }`}
+                />
               </button>
             </div>
 

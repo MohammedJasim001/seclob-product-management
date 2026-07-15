@@ -4,7 +4,14 @@ import { IUser } from "../types/userTypes";
 import CustomError from "../utils/CustomError";
 import User from "../models/userModel";
 import { passwordCompare, passwordHash } from "../utils/bcrypt";
-import { generateAccessToken, generateRefreshToken, sendAccessToken, sendRefreshToken, verifyRefreshToken } from "../utils/jwt";
+import {
+  cookieOptions,
+  generateAccessToken,
+  generateRefreshToken,
+  sendAccessToken,
+  sendRefreshToken,
+  verifyRefreshToken,
+} from "../utils/jwt";
 
 // register
 export const registerUser = async ({
@@ -97,4 +104,11 @@ export const forgotPassword = async ({
   user.password = await passwordHash(newPassword);
   await user.save();
   return user.password;
+};
+
+//logout
+export const logout = async (res: Response) => {
+  res.clearCookie("token", cookieOptions);
+  res.clearCookie("refreshToken", cookieOptions);
+  return "Logout Successfully";
 };

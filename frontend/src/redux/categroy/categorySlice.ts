@@ -27,7 +27,7 @@ const categorySlice = createSlice({
       const { newSubCategory } = action.payload;
 
       const category = state.categories.find(
-        (cat) => cat._id === newSubCategory.category,
+        (cat) => cat?._id === newSubCategory?.category,
       );
 
       if (category) {

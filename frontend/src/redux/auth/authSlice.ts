@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   forgotPasswordThunk,
   loginUserThunk,
+  logoutThunk,
   registerUserThunk,
 } from "./authThunk";
 import type { AuthState } from "./authTypes";
@@ -73,24 +74,24 @@ const authSlice = createSlice({
       .addCase(forgotPasswordThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
 
-    //   //logout
-    //   .addCase(logoutThunk.pending, (state) => {
-    //     state.loading = true;
-    //     state.error = null;
-    //     state.logoutSuccess = false;
-    //   })
-    //   .addCase(logoutThunk.fulfilled, (state) => {
-    //     state.loading = false;
-    //     state.error = null;
-    //     state.logoutSuccess = true;
-    //   })
-    //   .addCase(logoutThunk.rejected, (state, action) => {
-    //     state.loading = false;
-    //     state.error = action.payload as string;
-    //     state.logoutSuccess = false;
-    //   });
+      //logout
+      .addCase(logoutThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.logoutSuccess = false;
+      })
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+        state.logoutSuccess = true;
+      })
+      .addCase(logoutThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+        state.logoutSuccess = false;
+      });
   },
 });
 

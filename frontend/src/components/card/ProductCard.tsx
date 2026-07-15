@@ -1,13 +1,27 @@
 import { Heart, Star } from "lucide-react";
 import type { IProducts } from "../../types/productTypes";
 import { useNavigate } from "react-router-dom";
+import type { User } from "../../types/userTypes";
+import { useAppDispatch } from "../../redux/hook";
+import { wishlistThunk } from "../../redux/user/userThunk";
 
 interface Props {
   product: IProducts;
+  user?: User | null;
 }
 
-const ProductCard = ({ product }: Props) => {
+const ProductCard = ({ product, user }: Props) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const isWishlisted =
+    user?.wishlist?.some((pro) => pro._id === product._id) ?? false;
+
+  const handleWishlist = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    dispatch(wishlistThunk(product._id as string));
+  };
 
   return (
     <div
@@ -16,8 +30,18 @@ const ProductCard = ({ product }: Props) => {
     >
       {/* Wishlist */}
       <div className="flex justify-end">
-        <button className="rounded-full border border-sky-200 p-1 text-sky-500 hover:bg-sky-50">
-          <Heart size={14} />
+        <button
+          onClick={handleWishlist}
+          className="rounded-full border border-sky-200 p-2 transition hover:bg-sky-50"
+        >
+          <Heart
+            size={16}
+            className={`transition-all ${
+              isWishlisted
+                ? "fill-red-500 text-red-500"
+                : "text-sky-500 hover:text-red-500"
+            }`}
+          />
         </button>
       </div>
 
